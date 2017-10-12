@@ -1,6 +1,5 @@
-﻿var http = require('http')
+var http = require('http')
 var Alexa = require('alexa-sdk');
-var Data = require("./data");
 var start = 'https://api.datamuse.com/words?rel_rhy=';
 const skillName = "Rhyme Generator";
 
