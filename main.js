@@ -11,22 +11,48 @@ var xhr = function xhrWrapper() {
     };
 }();
 
-function getNRhymingWords(word, n) {
+function getNRhymingWords(word, n, callback) {
 	xhr('GET', 'https://api.datamuse.com/words?rel_rhy=' + word, function(responseText) {
 		debugger;
 		var rhymes = JSON.parse(responseText); // Receive JSON data
 		var rhymingWords = [];
-		for (var i = 0; i < n; i++) {
-			var randomIndex = Math.floor(Math.random() * rhymes.length);
-			rhymingWords.push(rhymes[randomIndex].word);
+		if (rhymes.length > 0) {
+			for (var i = 0; i < n; i++) {
+				var randomIndex = Math.floor(Math.random() * rhymes.length);
+				rhymingWords.push(rhymes[randomIndex].word);
+			}
 		}
-		return rhymingWords;
+		callback(rhymingWords);
 	});
 }
 
-var rhyme = prompt('Enter the word to rhyme with'); // FUTURE ALEXA UTTERANCE
-console.log('rhyming words API call result:', getNRhymingWords(rhyme, 5));
+// var rhyme = prompt('Enter the word to rhyme with'); // FUTURE ALEXA UTTERANCE
+//console.log('rhyming words API call result:', getNRhymingWords(rhyme, 5));
 
+function rhyme() {
+    var word = document.getElementById('word').value;
+	if (!word) {
+		alert('Please enter a word');
+		document.getElementById('word').focus();
+		return;
+	}
+    setStatus('processing...');
+    getNRhymingWords(word, 5, updateResult);
+}
+
+function setStatus(status) {
+    document.getElementById('status').innerText = status;
+}
+
+function updateResult(rhymingWords) {
+    var resultHTML = rhymingWords.length === 0 ? 'No rhymes found.' : rhymingWords.reduce(function(html, word) {
+        html += '<li>' + word + '</li>';
+        return html;
+    }, '');
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('result-list').innerHTML = resultHTML;
+    setStatus('');
+}
 
 
 
