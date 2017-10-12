@@ -24,7 +24,7 @@ function getNRhymingWords(word, n) {
 }
 
 var rhyme = prompt('Enter the word to rhyme with'); // FUTURE ALEXA UTTERANCE
-getNRhymingWords(rhyme, 5).then((data) => console.log("rhyming words API call result: " + data))
+getNRhymingWords(rhyme, 5).then((data) => console.log("rhyming words API call result: " + data)) // changed this one to cool promise type
 
 
 
