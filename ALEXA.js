@@ -1,7 +1,7 @@
 var http = require('http')
 var Alexa = require('alexa-sdk');
 var start = 'https://api.datamuse.com/words?rel_rhy=';
-var rhymeGen = require(./main)
+var rhymeGen = require(./main.js)
 const skillName = "Rhyme Generator";
 
 var handlers = {
