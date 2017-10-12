@@ -1,32 +1,30 @@
-var xhr = function xhrWrapper() {
-    var request = new XMLHttpRequest({ mozSystem: true }); // Set Mozsystem to true in order not get error.
-    return function(method, url, callback) {
-        request.onreadystatechange = function() {
-            if (request.readyState === 4) {
-                callback(request.responseText);
-            }
-        };
+function xhr(method, url) {
+    return new Promise((resolve, reject) => {
+        var request = new XMLHttpRequest({ mozSystem: true }); // Set Mozsystem to true in order not get error.        
+        request.onload = () => resolve(request.responseText);
+        request.onerror = () => reject(request.statusText);
         request.open(method, url, true);
         request.send();
-    };
-}();
+    });
+};
 
 function getNRhymingWords(word, n) {
-	xhr('GET', 'https://api.datamuse.com/words?rel_rhy=' + word, function(responseText) {
-		debugger;
-		var rhymes = JSON.parse(responseText); // Receive JSON data
-		var rhymingWords = [];
-		for (var i = 0; i < n; i++) {
-			var randomIndex = Math.floor(Math.random() * rhymes.length);
-			rhymingWords.push(rhymes[randomIndex].word);
-		}
-		return rhymingWords;
+	return new Promise((resolve, reject) => {
+        xhr('GET', 'https://api.datamuse.com/words?rel_rhy=' + word).then((responseText) =>  {
+            // debugger;
+            var rhymes = JSON.parse(responseText); // Receive JSON data
+            var rhymingWords = [];
+            for (var i = 0; i < n; i++) {
+                var randomIndex = Math.floor(Math.random() * rhymes.length);
+                rhymingWords.push(rhymes[randomIndex].word);
+            }
+            resolve(rhymingWords);
+        })
 	});
 }
 
 var rhyme = prompt('Enter the word to rhyme with'); // FUTURE ALEXA UTTERANCE
-console.log('rhyming words API call result:', getNRhymingWords(rhyme, 5));
-
+getNRhymingWords(rhyme, 5).then((data) => console.log("rhyming words API call result: " + data))
 
 
 
