@@ -14,10 +14,12 @@ function getNRhymingWords(word, n) {
             // debugger;
             var rhymes = JSON.parse(responseText); // Receive JSON data
             var rhymingWords = [];
-            for (var i = 0; i < n; i++) {
-                var randomIndex = Math.floor(Math.random() * rhymes.length);
-                rhymingWords.push(rhymes[randomIndex].word);
-            }
+			if (rhymes.length > 0) {
+				for (var i = 0; i < n; i++) {
+					var randomIndex = Math.floor(Math.random() * rhymes.length);
+					rhymingWords.push(rhymes[randomIndex].word);
+				}
+			}
             resolve(rhymingWords);
         })
 	});
