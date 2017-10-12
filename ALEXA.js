@@ -1,4 +1,4 @@
-﻿var http = require('http');
+﻿var http = require('http')
 var Alexa = require('alexa-sdk');
 var Data = require("./data");
 var start = 'https://api.datamuse.com/words?rel_rhy=';
@@ -7,9 +7,9 @@ const skillName = "Rhyme Generator";
 var handlers = {
 
     "GetRhyme": function () {
-	var rhyme = this.event.request.intent.slots.words;
-	var url = start + rhyme;
-	var xhr = function xhrWrapper() {
+		var rhyme = this.event.request.intent.slots.words;
+		var url = start + rhyme;
+       var xhr = function xhrWrapper() {
     var request = new XMLHttpRequest({ mozSystem: true }); // Set Mozsystem to true in order not get error.
     return function(method, url, callback) {
         request.onreadystatechange = function() {
