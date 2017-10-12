@@ -14,17 +14,19 @@ function getNRhymingWords(word, n) {
             // debugger;
             var rhymes = JSON.parse(responseText); // Receive JSON data
             var rhymingWords = [];
-            for (var i = 0; i < n; i++) {
-                var randomIndex = Math.floor(Math.random() * rhymes.length);
-                rhymingWords.push(rhymes[randomIndex].word);
-            }
+			if (rhymes.length > 0) {
+				for (var i = 0; i < n; i++) {
+					var randomIndex = Math.floor(Math.random() * rhymes.length);
+					rhymingWords.push(rhymes[randomIndex].word);
+				}
+			}
             resolve(rhymingWords);
         })
 	});
 }
 
-var rhyme = prompt('Enter the word to rhyme with'); // FUTURE ALEXA UTTERANCE
-getNRhymingWords(rhyme, 5).then((data) => console.log("rhyming words API call result: " + data)) // changed this one to cool promise type
+// var rhyme = prompt('Enter the word to rhyme with'); // FUTURE ALEXA UTTERANCE
+// getNRhymingWords(rhyme, 5).then((data) => console.log("rhyming words API call result: " + data)) // changed this one to cool promise type
 
 
 

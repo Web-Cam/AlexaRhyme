@@ -1,5 +1,54 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<script src = main.js></script> 
+    <script src = main.js></script>
 </head>
+<body>
+    <style>
+        #result {
+            display: none;
+            margin-top: 10px;
+        }
+        #result > * {
+            float: left;
+        }
+        #result-list {
+            margin: 0;
+        }
+    </style>
+    <div>
+        Enter the word to rhyme with: <input type="text" id="word" />
+        <button type="button" onclick="rhyme()">Rhyme!</button>
+        <span id="status"></span>
+    </div>
+    <div id="result">
+        <span>Result:</span>
+        <ul id="result-list"></ul>
+    </div>
+	<script type="text/javascript">
+		function rhyme() {
+			var word = document.getElementById('word').value;
+			if (!word) {
+				alert('Please enter a word');
+				document.getElementById('word').focus();
+				return;
+			}
+			setStatus('processing...');
+			getNRhymingWords(word, 5).then(updateResult);
+		}
+
+		function setStatus(status) {
+			document.getElementById('status').innerText = status;
+		}
+
+		function updateResult(rhymingWords) {
+			var resultHTML = rhymingWords.length === 0 ? 'No rhymes found.' : rhymingWords.reduce(function(html, word) {
+				html += '<li>' + word + '</li>';
+				return html;
+			}, '');
+			document.getElementById('result').style.display = 'block';
+			document.getElementById('result-list').innerHTML = resultHTML;
+			setStatus('');
+		}
+	</script>
+</body>
