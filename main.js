@@ -8,20 +8,19 @@ function xhr(method, url) {
     });
 };
 
-function getNRhymingWords(word, n) {
-	return new Promise((resolve, reject) => {
-        xhr('GET', 'https://api.datamuse.com/words?rel_rhy=' + word).then((responseText) =>  {
+export function getNRhymingWords(word, n) {
+    return new Promise((resolve, reject) => {
+        xhr('GET', 'https://api.datamuse.com/words?rel_rhy=' + word).then((responseText) => {
             // debugger;
             var rhymes = JSON.parse(responseText); // Receive JSON data
             var rhymingWords = [];
-			if (rhymes.length > 0) {
-				for (var i = 0; i < n; i++) {
-					var randomIndex = Math.floor(Math.random() * rhymes.length);
-					rhymingWords.push(rhymes[randomIndex].word);
-				}
-			}
+            if (rhymes.length > 0) {
+                for (var i = 0; i < n; i++) {
+                    var randomIndex = Math.floor(Math.random() * rhymes.length);
+                    rhymingWords.push(rhymes[randomIndex].word);
+                }
+            }
             resolve(rhymingWords);
         })
-	});
+    });
 }
-
