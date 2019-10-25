@@ -1,13 +1,18 @@
-var http = require('http')
 var Alexa = require('alexa-sdk');
-var start = 'https://api.datamuse.com/words?rel_rhy=';
-var rhymeGen = require(./main.js)
+var rhymeGen = require('./main');
 const skillName = "Rhyme Generator";
 
 var handlers = {
 
-    "GetRhyme": function () {
-    rhymeGen()
+    "RhymeIntent": function () {
+        var theWord = "word";     // TODO get from slot
+        var rhymeWord = rhymeGen.getNRhymingWords("test", 1);
+        if (rhymeWord)
+            var speechOutput = `A word that rhymes with ${theWord} is ${rhymeWord}.`;
+        else
+            speechOutput = `Sorry, I couldn't find any words that rhyme with ${theWord}.`;
+
+        this.emit(":tellWithCard", speechOutput, skillName, speechOutput);
     },
 
     "AboutIntent": function () {
